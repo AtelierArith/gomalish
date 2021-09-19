@@ -1,0 +1,27 @@
+version: '3'
+services:
+  jupyter:
+    image: gomalishjl
+    container_name: gomalishjl-jupyter
+    volumes:
+      - ./:/work
+    working_dir: /work
+    ports:
+      - "8888:8888"
+    command: jupyter notebook --notebook-dir /work --ip=0.0.0.0 --allow-root
+  lab:
+    image: gomalishjl
+    container_name: gomalishjl-lab
+    volumes:
+      - ./:/work
+    working_dir: /work
+    ports:
+      - "8888:8888"
+    command: jupyter lab --notebook-dir /work --ip=0.0.0.0 --allow-root
+  julia:
+    image: gomalishjl
+    container_name: gomalishjl-julia
+    volumes:
+      - ./:/work
+    working_dir: /work
+    command: julia --project=/work
