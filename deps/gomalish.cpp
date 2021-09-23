@@ -41,7 +41,7 @@ struct gomalish_vector
   typedef T type_value;
   gomalish_vector(const size_t N): v(monolish::vector<T>(N)){}
   gomalish_vector(const size_t N, const T value): v(monolish::vector<T>(N, value)){}
-  gomalish_vector(const size_t N, const T value1, const T value2): v(monolish::vector<T>(N, value1, value2)){}
+  gomalish_vector(const size_t N, const T min, const T max): v(monolish::vector<T>(N, min, max)){}
   monolish::vector<T> v;
   monolish::vector<T> val(){return v;}
 };
@@ -63,7 +63,7 @@ template<typename T1> struct IsMirroredType<monolish::vector<T1>> : std::false_t
 JLCXX_MODULE define_julia_module(Module &mod)
 {
 
-  mod.add_type<Parametric<TypeVar<1>>>("vector")
+  mod.add_type<Parametric<TypeVar<1>>>("monolish_vector")
      .apply<monolish::vector<double>>(WrapMonolishVector_double())
      .apply<monolish::vector<float>>(WrapMonolishVector_float());
 
