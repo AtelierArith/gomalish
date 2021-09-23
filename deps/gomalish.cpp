@@ -50,7 +50,7 @@ struct gomalish_vector
   gomalish_vector(const size_t N, const T value): v(monolish::vector<T>(N, value)){}
   gomalish_vector(const size_t N, const T value1, const T value2): v(monolish::vector<T>(N, value1, value2)){}
   monolish::vector<T> v;
-  monolish::vector<T> get_v(){return v;}
+  monolish::vector<T> val(){return v;}
 };
   
 struct WrapGomalishVector{
@@ -60,7 +60,7 @@ struct WrapGomalishVector{
     wrapped.template constructor<const size_t>();
     wrapped.template constructor<const size_t, const typename WrappedT::type_value>();
     wrapped.template constructor<const size_t, const typename WrappedT::type_value, const typename WrappedT::type_value>();
-    wrapped.method("get_v", &WrappedT::get_v);
+    wrapped.method("val", &WrappedT::val);
   }
 };
 

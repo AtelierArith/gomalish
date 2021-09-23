@@ -17,12 +17,12 @@ end
 
 function norm(N, value::Float64)
     v = vector{Float64}(N, value)
-    dot_f64(get_v(v), get_v(v))
+    dot_f64(val(v), val(v))
 end
 
 function norm(N, value::Float32)
     v = vector{Float32}(N, value)
-    dot_f32(get_v(v), get_v(v))
+    dot_f32(val(v), val(v))
 end
 
 
