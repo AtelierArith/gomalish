@@ -69,11 +69,12 @@ template<typename T1> struct IsMirroredType<monolish::vector<T1>> : std::false_t
 
 JLCXX_MODULE define_julia_module(Module &mod)
 {
-  mod.add_type<Parametric<TypeVar<1>>>("each_type_vector")
+
+  mod.add_type<Parametric<TypeVar<1>>>("vector")
      .apply<monolish::vector<double>>(WrapMonolishVector_double())
      .apply<monolish::vector<float>>(WrapMonolishVector_float());
-  
-  mod.add_type<Parametric<TypeVar<1>>>("vector")
+
+  mod.add_type<Parametric<TypeVar<1>>>("gomalish_vector")
      .apply<gomalish_vector<double>, gomalish_vector<float>>(WrapGomalishVector());
 
   mod.method("dot_f64", &monolish_blas_dot_double);
