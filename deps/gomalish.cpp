@@ -5,17 +5,11 @@
 
 using namespace jlcxx;
 
-
-double monolish_blas_dot_double(monolish::vector<double> x, monolish::vector<double> y)
+template<typename T>
+T monolish_blas_dot(monolish::vector<T> x, monolish::vector<T> y)
 {
   return monolish::blas::dot(x, y);
 }
-
-float monolish_blas_dot_float(monolish::vector<float> x, monolish::vector<float> y)
-{
-  return monolish::blas::dot(x, y);
-}
-
 
 struct WrapMonolishVector_double
 {
@@ -40,7 +34,6 @@ struct WrapMonolishVector_float
     wrapped.template constructor<const size_t, const float, const float>();
   }
 };
-
 
 template<typename T>
 struct gomalish_vector
@@ -77,6 +70,6 @@ JLCXX_MODULE define_julia_module(Module &mod)
   mod.add_type<Parametric<TypeVar<1>>>("gomalish_vector")
      .apply<gomalish_vector<double>, gomalish_vector<float>>(WrapGomalishVector());
 
-  mod.method("dot_f64", &monolish_blas_dot_double);
-  mod.method("dot_f32", &monolish_blas_dot_float);
+  mod.method("dot_f64", &monolish_blas_dot<double>);
+  mod.method("dot_f32", &monolish_blas_dot<float>);
 }
