@@ -17,3 +17,17 @@ end
     mv2 = Gomalish.monolish_vector{Float32}(stdv2)
     @test Gomalish.dot(mv1, mv2) ≈ -Float32(14)
 end
+
+@testset "matrix" begin
+    A_COO = Gomalish.monolish_COO{Float64}("../playground/cpp/sample.mtx")
+    A = Gomalish.monolish_CRS{Float64}(A_COO)
+    x = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
+    b = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
+    solver = Gomalish.monolish_CG{Gomalish.monolish_CRS{Float64},Float64}()
+    precond = Gomalish.monolish_Jacobi{Gomalish.monolish_CRS{Float64},Float64}()
+    #= 
+    Gomalish.set_create_precond(precond)
+    Gomalish.set_apply_precond(precond)
+    Gomalish.set_tol(solver, 1e-12)
+    Gomalish.set_maxiter(solver, Gomalish.get_row(A)) =#
+end

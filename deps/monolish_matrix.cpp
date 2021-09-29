@@ -34,6 +34,8 @@ struct WrapMonolishCRS_double
   {
     typedef typename TypeWrapperT::type WrappedT;
     wrapped.template constructor<monolish::matrix::COO<double>>();
+    wrapped.method("get_row", &WrappedT::get_row);
+    wrapped.method("get_col", &WrappedT::get_col);
   }
 };
 
@@ -44,6 +46,8 @@ struct WrapMonolishCRS_float
   {
     typedef typename TypeWrapperT::type WrappedT;
     wrapped.template constructor<monolish::matrix::COO<float>>();
+    wrapped.method("get_row", &WrappedT::get_row);
+    wrapped.method("get_col", &WrappedT::get_col);
   }
 };
 
