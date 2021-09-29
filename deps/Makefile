@@ -23,6 +23,7 @@ else
 endif
 
 build: clone gomalish.cpp
+	rm -rf /root/.julia/compiled/v1.6/Gomalish
 	cmake -S $(CURDIR) -B $(CURDIR)/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O2" -DCMAKE_PREFIX_PATH=`julia --project=@. -e 'using CxxWrap; CxxWrap.prefix_path() |> print'`
 	cmake --build $(CURDIR)/build --config Release -j $(NPROCS)
 
