@@ -1,7 +1,6 @@
 #include <jlcxx/jlcxx.hpp>
 
-#include "monolish_vector.hpp"
-#include "monolish_matrix.hpp"
+#include "monolish_module.hpp"
 
 using namespace jlcxx;
 

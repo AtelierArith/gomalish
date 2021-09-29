@@ -1,8 +1,6 @@
 #include <jlcxx/jlcxx.hpp>
 #include <monolish_blas.hpp>
 
-#include "monolish_matrix.hpp"
-
 using namespace jlcxx;
 
 struct WrapMonolishCOO_double
