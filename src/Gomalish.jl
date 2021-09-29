@@ -9,7 +9,7 @@ const libgomalish = joinpath(@__DIR__, "..", "deps", "build", "lib", "libgomalis
 # const libgomalish = joinpath(artifact"libgomalish","libgomalish.$(Libdl.dlext)")
 isfile(libgomalish) && @wrapmodule(libgomalish, :define_julia_module)
 
-export do_something, norm
+export do_something
 
 for bit in [32, 64]
     T = Symbol("Float", bit)
@@ -23,9 +23,8 @@ end
 for bit in [32, 64]
     T = Symbol("Float", bit)
     f = Symbol("dot_f", bit)
-    @eval function norm(N, value::$(T))
-        v = monolish_vector{$(T)}(N, value)
-        $(f)(v, v)
+    @eval function dot(a::monolish_vector{$T}, b::monolish_vector{$T})
+        $(f)(a, b)
     end
 end
 
