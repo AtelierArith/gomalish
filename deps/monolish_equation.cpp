@@ -21,6 +21,7 @@ struct WrapMonolishCG_double
       "set_apply_precond", 
       [&](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<double>, double> p){w.set_apply_precond(p);}
     );
+    wrapped.method("solve", &WrappedT::solve);
   }
 };
 
@@ -35,12 +36,13 @@ struct WrapMonolishCG_float
     wrapped.method("set_tol", &WrappedT::set_tol);
     wrapped.method(
       "set_create_precond", 
-      [&](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<float>, float> p){w.set_create_precond(p);}
+      [](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<float>, float> p){w.set_create_precond(p);}
     );
     wrapped.method(
       "set_apply_precond", 
-      [&](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<float>, float> p){w.set_apply_precond(p);}
+      [](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<float>, float> p){w.set_apply_precond(p);}
     );
+    wrapped.method("solve", &WrappedT::solve);
   }
 };
 

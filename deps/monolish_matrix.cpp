@@ -36,6 +36,7 @@ struct WrapMonolishCRS_double
     wrapped.template constructor<monolish::matrix::COO<double>>();
     wrapped.method("get_row", &WrappedT::get_row);
     wrapped.method("get_col", &WrappedT::get_col);
+    wrapped.method("print_all", &WrappedT::print_all);
   }
 };
 
@@ -48,6 +49,7 @@ struct WrapMonolishCRS_float
     wrapped.template constructor<monolish::matrix::COO<float>>();
     wrapped.method("get_row", &WrappedT::get_row);
     wrapped.method("get_col", &WrappedT::get_col);
+    wrapped.method("print_all", &WrappedT::print_all);
   }
 };
 

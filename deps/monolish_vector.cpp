@@ -20,12 +20,9 @@ struct WrapMonolishVector_double
     wrapped.template constructor<const size_t>();
     wrapped.template constructor<const size_t, const double>();
     wrapped.template constructor<const size_t, const double, const double>();
-    // s1 = StdVector(rand(10))
-    // s2 = StdVector(rand(10))
-    // s1 = Gomalish.monolish_vector{Float64}(s1)
-    // s2 = Gomalish.monolish_vector{Float64}(s2)
-    // dot_f64(s1, s2)
     wrapped.template constructor<const std::vector<double>&>();
+    wrapped.method("print_all", [](WrappedT &w, bool force_cpu=false){w.print_all(force_cpu);});
+    wrapped.method("print_all", [](WrappedT &w, std::string filename){w.print_all(filename);});
   }
 };
 
@@ -39,6 +36,8 @@ struct WrapMonolishVector_float
     wrapped.template constructor<const size_t, const float>();
     wrapped.template constructor<const size_t, const float, const float>();
     wrapped.template constructor<const std::vector<float>&>();
+    wrapped.method("print_all", [](WrappedT &w, bool force_cpu=false){w.print_all(force_cpu);});
+    wrapped.method("print_all", [](WrappedT &w, std::string filename){w.print_all(filename);});
   }
 };
 

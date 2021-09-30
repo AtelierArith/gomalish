@@ -7,6 +7,8 @@ using Test
     stdv2 = StdVector(Float64[-1,-2,-3])
     mv1 = Gomalish.monolish_vector{Float64}(stdv1)
     mv2 = Gomalish.monolish_vector{Float64}(stdv2)
+    Gomalish.print_all(mv1, false)
+    Gomalish.print_all(mv2, false)
     @test Gomalish.dot(mv1, mv2) ≈ -Float64(14)
 end
 
@@ -15,6 +17,8 @@ end
     stdv2 = StdVector(Float32[-1,-2,-3])
     mv1 = Gomalish.monolish_vector{Float32}(stdv1)
     mv2 = Gomalish.monolish_vector{Float32}(stdv2)
+    Gomalish.print_all(mv1, false)
+    Gomalish.print_all(mv2, false)
     @test Gomalish.dot(mv1, mv2) ≈ -Float32(14)
 end
 
@@ -29,4 +33,9 @@ end
     Gomalish.set_apply_precond(solver, precond)
     Gomalish.set_tol(solver, 1e-12)
     Gomalish.set_maxiter(solver, Gomalish.get_row(A))
+    Gomalish.print_all(A, false)
+    Gomalish.print_all(x, false)
+    Gomalish.print_all(b, false)
+
+    # Gomalish.solve(solver, A, x, b)
 end
