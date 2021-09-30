@@ -23,7 +23,7 @@ end
 end
 
 @testset "solver" begin
-    A_COO = Gomalish.monolish_COO{Float64}("../playground/cpp/sample.mtx")
+    A_COO = Gomalish.monolish_COO{Float64}("matrixfiles/sample.mtx")
     A = Gomalish.monolish_CRS{Float64}(A_COO)
     x = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
     b = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
