@@ -15,7 +15,7 @@ for T in [Float64, Float32]
 end
 
 for T in [Float64, Float32]
-    @testset "solver" begin
+    @testset "cg $T" begin
         A_COO = Gomalish.monolish_COO{T}("matrixfiles/sample.mtx")
         Gomalish.print_all(A_COO, false)
         A = Gomalish.monolish_CRS{T}(A_COO)
@@ -48,5 +48,17 @@ for T in [Float64, Float32]
         Gomalish.print_all(x, false)
         println("Result by Julia")
         println(jl_A \ jl_b)
+    end
+end
+
+for T in [Float64, Float32]
+    @testset "cg-impl $T" begin
+        DIM = 100
+        COO = Gomalish.tridiagonal_toeplitz_matrix(DIM, 11.0, -1.0);
+        A = Gomalish.monolish_CRS{Float64}(COO);
+        # initial x is rand(0~1)
+        x = monolish_vector{Float64}(A.get_row(), 0.0, 1.0)
+        # initial b is {1, 1, 1, ...,1}
+        b = monolish_vector{Float64}(A.get_row(), 1.0)
     end
 end
