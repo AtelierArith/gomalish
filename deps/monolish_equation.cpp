@@ -16,11 +16,11 @@ struct WrapMonolishCG
     wrapped.method("set_tol", &WrappedT::set_tol);
     wrapped.method(
       "set_create_precond", 
-      [](WrappedT& w, PRECOND &p){w.set_create_precond(p);}
+      [](WrappedT &w, PRECOND &p){w.set_create_precond(p);}
     );
     wrapped.method(
       "set_apply_precond", 
-      [](WrappedT& w, PRECOND &p){w.set_apply_precond(p);}
+      [](WrappedT &w, PRECOND &p){w.set_apply_precond(p);}
     );
     wrapped.method("solve", &WrappedT::solve);
   }
