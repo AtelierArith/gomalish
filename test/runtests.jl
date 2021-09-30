@@ -25,9 +25,8 @@ end
     b = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
     solver = Gomalish.monolish_CG{Gomalish.monolish_CRS{Float64},Float64}()
     precond = Gomalish.monolish_Jacobi{Gomalish.monolish_CRS{Float64},Float64}()
-    #= 
-    Gomalish.set_create_precond(precond)
-    Gomalish.set_apply_precond(precond)
+    Gomalish.set_create_precond(solver, precond)
+    Gomalish.set_apply_precond(solver, precond)
     Gomalish.set_tol(solver, 1e-12)
-    Gomalish.set_maxiter(solver, Gomalish.get_row(A)) =#
+    Gomalish.set_maxiter(solver, Gomalish.get_row(A))
 end

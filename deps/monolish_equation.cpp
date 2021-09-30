@@ -11,12 +11,16 @@ struct WrapMonolishCG_double
   {
     typedef typename TypeWrapperT::type WrappedT;
     wrapped.template constructor<>();
-    /*
-    wrapped.method("set_create_precond", &WrappedT::set_create_precond);
-    wrapped.method("set_apply_precond", &WrappedT::set_apply_precond);
-    wrapped.method("set_tol", &WrappedT::set_tol);
     wrapped.method("set_maxiter", &WrappedT::set_maxiter);
-    */
+    wrapped.method("set_tol", &WrappedT::set_tol);
+    wrapped.method(
+      "set_create_precond", 
+      [&](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<double>, double> p){w.set_create_precond(p);}
+    );
+    wrapped.method(
+      "set_apply_precond", 
+      [&](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<double>, double> p){w.set_apply_precond(p);}
+    );
   }
 };
 
@@ -27,6 +31,16 @@ struct WrapMonolishCG_float
   {
     typedef typename TypeWrapperT::type WrappedT;
     wrapped.template constructor<>();
+    wrapped.method("set_maxiter", &WrappedT::set_maxiter);
+    wrapped.method("set_tol", &WrappedT::set_tol);
+    wrapped.method(
+      "set_create_precond", 
+      [&](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<float>, float> p){w.set_create_precond(p);}
+    );
+    wrapped.method(
+      "set_apply_precond", 
+      [&](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<float>, float> p){w.set_apply_precond(p);}
+    );
   }
 };
 
@@ -54,11 +68,12 @@ template<typename T1, typename T2> struct IsMirroredType<monolish::equation::CG<
 template<typename T1, typename T2> struct IsMirroredType<monolish::equation::Jacobi<T1, T2>> : std::false_type { };
 
 void wrap_equation(Module &mod){
+  mod.add_type<Parametric<TypeVar<1>, TypeVar<2>>>("monolish_Jacobi")
+     .apply<monolish::equation::Jacobi<monolish::matrix::CRS<double>, double>>(WrapMonolishJacobi_double())
+     .apply<monolish::equation::Jacobi<monolish::matrix::CRS<float>, float>>(WrapMonolishJacobi_float());
+
   mod.add_type<Parametric<TypeVar<1>, TypeVar<2>>>("monolish_CG")
      .apply<monolish::equation::CG<monolish::matrix::CRS<double>, double>>(WrapMonolishCG_double())
      .apply<monolish::equation::CG<monolish::matrix::CRS<float>, float>>(WrapMonolishCG_float());
 
-  mod.add_type<Parametric<TypeVar<1>, TypeVar<2>>>("monolish_Jacobi")
-     .apply<monolish::equation::Jacobi<monolish::matrix::CRS<double>, double>>(WrapMonolishJacobi_double())
-     .apply<monolish::equation::Jacobi<monolish::matrix::CRS<float>, float>>(WrapMonolishJacobi_float());
 }
