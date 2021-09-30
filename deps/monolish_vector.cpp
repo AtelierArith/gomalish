@@ -11,31 +11,17 @@ T monolish_blas_dot(monolish::vector<T> x, monolish::vector<T> y)
   return monolish::blas::dot(x, y);
 }
 
-struct WrapMonolishVector_double
+template<typename Float>
+struct WrapMonolishVector
 {
   template<typename TypeWrapperT>
   void operator()(TypeWrapperT&& wrapped)
   {
     typedef typename TypeWrapperT::type WrappedT;
     wrapped.template constructor<const size_t>();
-    wrapped.template constructor<const size_t, const double>();
-    wrapped.template constructor<const size_t, const double, const double>();
-    wrapped.template constructor<const std::vector<double>&>();
-    wrapped.method("print_all", [](WrappedT &w, bool force_cpu=false){w.print_all(force_cpu);});
-    wrapped.method("print_all", [](WrappedT &w, std::string filename){w.print_all(filename);});
-  }
-};
-
-struct WrapMonolishVector_float
-{
-  template<typename TypeWrapperT>
-  void operator()(TypeWrapperT&& wrapped)
-  {
-    typedef typename TypeWrapperT::type WrappedT;
-    wrapped.template constructor<const size_t>();
-    wrapped.template constructor<const size_t, const float>();
-    wrapped.template constructor<const size_t, const float, const float>();
-    wrapped.template constructor<const std::vector<float>&>();
+    wrapped.template constructor<const size_t, const Float>();
+    wrapped.template constructor<const size_t, const Float, const Float>();
+    wrapped.template constructor<const std::vector<Float>&>();
     wrapped.method("print_all", [](WrappedT &w, bool force_cpu=false){w.print_all(force_cpu);});
     wrapped.method("print_all", [](WrappedT &w, std::string filename){w.print_all(filename);});
   }
@@ -70,8 +56,8 @@ void wrap_vector(Module &mod)
 {
 
   mod.add_type<Parametric<TypeVar<1>>>("monolish_vector")
-     .apply<monolish::vector<double>>(WrapMonolishVector_double())
-     .apply<monolish::vector<float>>(WrapMonolishVector_float());
+     .apply<monolish::vector<double>>(WrapMonolishVector<double>())
+     .apply<monolish::vector<float>>(WrapMonolishVector<float>());
 
   mod.add_type<Parametric<TypeVar<1>>>("gomalish_vector")
      .apply<gomalish_vector<double>, gomalish_vector<float>>(WrapGomalishVector());
