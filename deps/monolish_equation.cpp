@@ -21,13 +21,6 @@ struct WrapMonolishCG_double
       "set_apply_precond", 
       [](WrappedT& w, monolish::equation::Jacobi<monolish::matrix::CRS<double>, double> &p){w.set_apply_precond(p);}
     );
-    
-    /*
-    wrapped.method(
-      "solve", 
-      [](WrappedT& w, monolish::matrix::CRS<double> &A, monolish::vector<double> &x, monolish::vector<double> &b){return w.solve(A, x, b);}
-    );
-    */
     wrapped.method("solve", &WrappedT::solve);
   }
 };
