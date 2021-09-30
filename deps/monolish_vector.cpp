@@ -1,15 +1,10 @@
 #include <vector>
 
 #include <jlcxx/jlcxx.hpp>
+#include <common/monolish_vector.hpp>
 #include <monolish_blas.hpp>
 
 using namespace jlcxx;
-
-template<typename T>
-T monolish_blas_dot(monolish::vector<T> x, monolish::vector<T> y)
-{
-  return monolish::blas::dot(x, y);
-}
 
 template<typename Float>
 struct WrapMonolishVector
@@ -61,7 +56,4 @@ void wrap_vector(Module &mod)
 
   mod.add_type<Parametric<TypeVar<1>>>("gomalish_vector")
      .apply<gomalish_vector<double>, gomalish_vector<float>>(WrapGomalishVector());
-
-  mod.method("dot_f64", &monolish_blas_dot<double>);
-  mod.method("dot_f32", &monolish_blas_dot<float>);
 }
