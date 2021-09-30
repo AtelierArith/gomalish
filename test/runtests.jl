@@ -27,15 +27,29 @@ end
     A = Gomalish.monolish_CRS{Float64}(A_COO)
     x = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
     b = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
+    x = 1 .+ rand(Gomalish.get_row(A))
+    jl_b = 1 .+ rand(Gomalish.get_row(A))
+    x = Gomalish.monolish_vector{Float64}(StdVector(x))
+    b = Gomalish.monolish_vector{Float64}(StdVector(jl_b))
+
     solver = Gomalish.monolish_CG{Gomalish.monolish_CRS{Float64},Float64}()
     precond = Gomalish.monolish_Jacobi{Gomalish.monolish_CRS{Float64},Float64}()
-    Gomalish.set_create_precond(solver, precond)
-    Gomalish.set_apply_precond(solver, precond)
-    Gomalish.set_tol(solver, 1e-12)
+    Gomalish.set_create_precond(solver, CxxRef(precond))
+    Gomalish.set_apply_precond(solver, CxxRef(precond))
+    Gomalish.set_tol(solver, 1.0e-12)
     Gomalish.set_maxiter(solver, Gomalish.get_row(A))
     Gomalish.print_all(A, false)
+    println("---")
     Gomalish.print_all(x, false)
+    println("---")
     Gomalish.print_all(b, false)
 
-    # Gomalish.solve(solver, A, x, b)
+    @show Gomalish.solve(solver, A, x, b)
+    jl_A = [
+        2 -1 0
+        -1 2 -1
+         0 -1 2
+    ]
+    Gomalish.print_all(x, false)
+    @show jl_A \ jl_b
 end
