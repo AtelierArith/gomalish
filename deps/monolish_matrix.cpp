@@ -13,7 +13,9 @@ struct WrapMonolishCOO
     wrapped.template constructor<const char*>();
     wrapped.method("get_row", &WrappedT::get_row);
     wrapped.method("get_col", &WrappedT::get_col);
-    //wrapped.method("print_all", &WrappedT::print_all);
+    wrapped.method("get_nnz", &WrappedT::get_nnz);
+    wrapped.method("print_all", [](WrappedT &w, bool force_cpu=false){w.print_all(force_cpu);});
+    wrapped.method("print_all", [](WrappedT &w, std::string filename){w.print_all(filename);});
   }
 };
 
@@ -27,6 +29,7 @@ struct WrapMonolishCRS
     wrapped.template constructor<monolish::matrix::COO<Float>>();
     wrapped.method("get_row", &WrappedT::get_row);
     wrapped.method("get_col", &WrappedT::get_col);
+    wrapped.method("get_nnz", &WrappedT::get_nnz);
     wrapped.method("print_all", &WrappedT::print_all);
   }
 };

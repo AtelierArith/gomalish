@@ -24,6 +24,7 @@ end
 
 @testset "solver" begin
     A_COO = Gomalish.monolish_COO{Float64}("matrixfiles/sample.mtx")
+    Gomalish.print_all(A_COO, false)
     A = Gomalish.monolish_CRS{Float64}(A_COO)
     x = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
     b = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
