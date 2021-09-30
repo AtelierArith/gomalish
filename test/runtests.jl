@@ -22,7 +22,7 @@ end
     @test Gomalish.dot(mv1, mv2) ≈ -Float32(14)
 end
 
-@testset "matrix" begin
+@testset "solver" begin
     A_COO = Gomalish.monolish_COO{Float64}("../playground/cpp/sample.mtx")
     A = Gomalish.monolish_CRS{Float64}(A_COO)
     x = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1., 2.)
@@ -45,11 +45,13 @@ end
     Gomalish.print_all(b, false)
 
     @show Gomalish.solve(solver, A, x, b)
-    jl_A = [
+    jl_A = Float64[
         2 -1 0
         -1 2 -1
          0 -1 2
     ]
+    println("Result by Gomalish/monolish")
     Gomalish.print_all(x, false)
-    @show jl_A \ jl_b
+    println("Result by Julia")
+    println(jl_A \ jl_b)
 end
