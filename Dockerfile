@@ -27,6 +27,6 @@ WORKDIR /work
 ENV JULIA_PROJECT=/work
 
 COPY Project.toml /work/
-COPY src/Gomalish.jl /work/src/
+RUN mkdir /work/src/ && echo "module Gomalish; end">> /work/src/Gomalish.jl
 
 RUN julia -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()'
