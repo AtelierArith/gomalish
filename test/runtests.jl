@@ -57,8 +57,8 @@ for T in [Float64, Float32]
         COO = Gomalish.tridiagonal_toeplitz_matrix(DIM, 11.0, -1.0);
         A = Gomalish.monolish_CRS{Float64}(COO);
         # initial x is rand(0~1)
-        x = monolish_vector{Float64}(A.get_row(), 0.0, 1.0)
+        x = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 0.0, 1.0)
         # initial b is {1, 1, 1, ...,1}
-        b = monolish_vector{Float64}(A.get_row(), 1.0)
+        b = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1.0)
     end
 end
