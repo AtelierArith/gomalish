@@ -34,8 +34,23 @@ struct WrapMonolishCRS
   }
 };
 
+template<typename Float>
+struct WrapMonolishDense
+{
+  template<typename TypeWrapperT>
+  void operator()(TypeWrapperT&& wrapped)
+  {
+    typedef typename TypeWrapperT::type WrappedT;
+    wrapped.template constructor<monolish::matrix::COO<Float>>();
+    wrapped.method("get_row", &WrappedT::get_row);
+    wrapped.method("get_col", &WrappedT::get_col);
+    wrapped.method("get_nnz", &WrappedT::get_nnz);
+    wrapped.method("print_all", &WrappedT::print_all);
+  }
+};
 template<typename T> struct IsMirroredType<monolish::matrix::COO<T>> : std::false_type { };
 template<typename T> struct IsMirroredType<monolish::matrix::CRS<T>> : std::false_type { };
+template<typename T> struct IsMirroredType<monolish::matrix::Dense<T>> : std::false_type { };
 
 void wrap_matrix(Module &mod)
 {
@@ -46,4 +61,8 @@ void wrap_matrix(Module &mod)
   mod.add_type<Parametric<TypeVar<1>>>("monolish_CRS")
      .apply<monolish::matrix::CRS<double>>(WrapMonolishCRS<double>())
      .apply<monolish::matrix::CRS<float>>(WrapMonolishCRS<float>());
+  
+  mod.add_type<Parametric<TypeVar<1>>>("monolish_Dense")
+     .apply<monolish::matrix::Dense<double>>(WrapMonolishDense<double>())
+     .apply<monolish::matrix::Dense<float>>(WrapMonolishDense<float>());
 }
