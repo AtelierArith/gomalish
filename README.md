@@ -1,8 +1,10 @@
 # gomalish(Gomalish.jl)
 
-- Unofficial Julia interface of [monolish](https://github.com/ricosjp/monolish)
+- Unofficial [JuliaLang](https://julialang.org/) interface of MONOlithic LInear equation Solvers for Highly-parallel architecture a.k.a [monolish](https://github.com/ricosjp/monolish) with [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl)
 
-# TL;DR (今北産業)
+# Usage
+
+## TL;DR (今北産業)
 
 ```console
 $ git clone https://github.com/AtelierArith/gomalish && cd gomalish
@@ -10,7 +12,7 @@ $ make # to build Docker image
 $ docker-compose run --rm julia julia -e 'using Pkg; Pkg.build(); Pkg.test()'
 ```
 
-# Workflow
+# Developer workflow basics
 
 - Let's clone this repository via:
 
@@ -75,7 +77,8 @@ Congrats! You have a complete understanding of Gomalish.jl.
 To move on to the next step, we recommend to take a look at these materials:
 
 - https://barche.github.io/cxxwrap-juliacon2020/#/
+  - [JuliaCon 2020 | Julia and C++: a technical overview of CxxWrap.jl | Bart Janssens](https://www.youtube.com/watch?v=u7IaXwKSUU0)
 - https://github.com/JuliaInterop/libcxxwrap-julia
   - especially [examples](https://github.com/JuliaInterop/libcxxwrap-julia/tree/master/examples) directory
 - https://github.com/JuliaInterop/CxxWrap.jl
-
+- https://github.com/ricosjp/monolish
