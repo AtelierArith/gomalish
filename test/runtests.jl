@@ -102,55 +102,108 @@ for T in [Float64, Float32]
     end
 end
 
-@testset "template solver" begin
-    T = Float32
-    A_COO = Gomalish.COO{T}("matrixfiles/sample.mtx")
-    A = Gomalish.CRS{T}(A_COO)
-    jl_x = one(T) .+ rand(T, Gomalish.get_row(A))
-    jl_b = one(T) .+ rand(T, Gomalish.get_row(A))
-    x = Gomalish.vector{T}(StdVector(jl_x))
-    b = Gomalish.vector{T}(StdVector(jl_b))
-    solver = Gomalish.CG{Gomalish.CRS{T},T}()
-    precond = Gomalish.Jacobi{Gomalish.CRS{T},T}()
-    Gomalish.set_create_precond(solver, precond)
-    Gomalish.set_apply_precond(solver, precond)
-    Gomalish.set_tol(solver, 1.0e-12)
-    Gomalish.set_maxiter(solver, Gomalish.get_row(A))
-    if Gomalish.solver_check(Gomalish.solve(solver, A, x, b))
-        return
+for T in [Float64, Float32]
+    @testset "template solver $T" begin
+        Random.seed!(12345)
+        A_COO = Gomalish.COO{T}("matrixfiles/sample.mtx")
+        A = Gomalish.CRS{T}(A_COO)
+        jl_x = one(T) .+ rand(T, Gomalish.get_row(A))
+        jl_b = one(T) .+ rand(T, Gomalish.get_row(A))
+        x = Gomalish.vector{T}(StdVector(jl_x))
+        b = Gomalish.vector{T}(StdVector(jl_b))
+        solver = Gomalish.CG{Gomalish.CRS{T},T}()
+        precond = Gomalish.Jacobi{Gomalish.CRS{T},T}()
+        Gomalish.set_create_precond(solver, precond)
+        Gomalish.set_apply_precond(solver, precond)
+        Gomalish.set_tol(solver, 1.0e-12)
+        Gomalish.set_maxiter(solver, Gomalish.get_row(A))
+        if Gomalish.solver_check(Gomalish.solve(solver, A, x, b))
+            return
+        end
+        Gomalish.print_all(x)
+        jl_A = T[
+            2 -1 0
+            -1 2 -1
+            0 -1 2
+        ]
+        println("Result by Gomalish/monolish")
+        Gomalish.print_all(x)
+        println("Result by Julia")
+        jl_x = jl_A \ jl_b
+        println(jl_x)
+        @test x[1] ≈ jl_x[1]
+        @test x[2] ≈ jl_x[2]
+        @test x[3] ≈ jl_x[3]
     end
-    Gomalish.print_all(x)
-    jl_A = T[
-        2 -1 0
-        -1 2 -1
-        0 -1 2
-    ]
-    @show jl_A \ jl_b
 end
 
-@testset "template solver part2" begin
-    Random.seed!(12345)
-    T = Float64
-    A_COO = Gomalish.COO{T}("matrixfiles/sample.mtx")
-    A = Gomalish.Dense{T}(A_COO)
-    jl_x = one(T) .+ rand(T, Gomalish.get_row(A))
-    jl_b = one(T) .+ rand(T, Gomalish.get_row(A))
-    x = Gomalish.vector{T}(StdVector(jl_x))
-    b = Gomalish.vector{T}(StdVector(jl_b))
-    solver = Gomalish.BiCGSTAB{Gomalish.Dense{T},T}()
-    precond = Gomalish.none{Gomalish.Dense{T},T}()
-    Gomalish.set_create_precond(solver, precond)
-    Gomalish.set_apply_precond(solver, precond)
-    Gomalish.set_tol(solver, 1.0e-12)
-    Gomalish.set_maxiter(solver, Gomalish.get_row(A))
-    if Gomalish.solver_check(Gomalish.solve(solver, A, x, b))
-        return
+for T in [Float64, Float32]
+    @testset "template solver part2 $T" begin
+        Random.seed!(12345)
+        A_COO = Gomalish.COO{T}("matrixfiles/sample.mtx")
+        A = Gomalish.Dense{T}(A_COO)
+        jl_x = one(T) .+ rand(T, Gomalish.get_row(A))
+        jl_b = one(T) .+ rand(T, Gomalish.get_row(A))
+        x = Gomalish.vector{T}(StdVector(jl_x))
+        b = Gomalish.vector{T}(StdVector(jl_b))
+        solver = Gomalish.BiCGSTAB{Gomalish.Dense{T},T}()
+        precond = Gomalish.none{Gomalish.Dense{T},T}()
+        Gomalish.set_create_precond(solver, precond)
+        Gomalish.set_apply_precond(solver, precond)
+        Gomalish.set_tol(solver, 1.0e-12)
+        Gomalish.set_maxiter(solver, Gomalish.get_row(A))
+        if Gomalish.solver_check(Gomalish.solve(solver, A, x, b))
+            return
+        end
+        Gomalish.print_all(x)
+        jl_A = T[
+            2 -1 0
+            -1 2 -1
+            0 -1 2
+        ]
+        println("Result by Gomalish/monolish")
+            Gomalish.print_all(x)
+        println("Result by Julia")
+        jl_x = jl_A \ jl_b
+        println(jl_x)
+        @test x[1] ≈ jl_x[1]
+        @test x[2] ≈ jl_x[2]
+        @test x[3] ≈ jl_x[3]
     end
-    Gomalish.print_all(x)
-    jl_A = T[
-        2 -1 0
-        -1 2 -1
-        0 -1 2
-    ]
-    @show jl_A \ jl_b
+end
+
+for T in [Float64, Float32]
+    @testset "template solver part3 $T" begin
+        Random.seed!(12345)
+        A_COO = Gomalish.COO{T}("matrixfiles/sample.mtx")
+        A = Gomalish.Dense{T}(A_COO)
+        jl_x = one(T) .+ rand(T, Gomalish.get_row(A))
+        jl_b = one(T) .+ rand(T, Gomalish.get_row(A))
+        x = Gomalish.vector{T}(StdVector(jl_x))
+        b = Gomalish.vector{T}(StdVector(jl_b))
+        solver = Gomalish.LU{Gomalish.Dense{T},T}()
+        @test Gomalish.name(solver) == "monolish::equation::LU"
+        precond = Gomalish.none{Gomalish.Dense{T},T}()
+        Gomalish.set_create_precond(solver, precond)
+        Gomalish.set_apply_precond(solver, precond)
+        Gomalish.set_tol(solver, 1.0e-12)
+        Gomalish.set_maxiter(solver, Gomalish.get_row(A))
+        if Gomalish.solver_check(Gomalish.solve(solver, A, x, b))
+            return
+        end
+        Gomalish.print_all(x)
+        jl_A = T[
+            2 -1 0
+            -1 2 -1
+            0 -1 2
+        ]
+        println("Result by Gomalish/monolish")
+            Gomalish.print_all(x)
+        println("Result by Julia")
+        jl_x = jl_A \ jl_b
+        println(jl_x)
+        @test x[1] ≈ jl_x[1]
+        @test x[2] ≈ jl_x[2]
+        @test x[3] ≈ jl_x[3]
+    end
 end
