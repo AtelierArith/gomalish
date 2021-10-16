@@ -60,5 +60,18 @@ for T in [Float64, Float32]
         x = Gomalish.vector{T}(Gomalish.get_row(A), T(0.0), T(1.0))
         # initial b is {1, 1, 1, ...,1}
         b = Gomalish.vector{T}(Gomalish.get_row(A), T(1.0))
+        tol::T = 1.0e-12
+
+        r = Gomalish.vector{T}(Gomalish.get_row(A), T(0.0))
+        p = Gomalish.vector{T}(Gomalish.get_row(A), T(0.0))
+        q = Gomalish.vector{T}(Gomalish.get_row(A), T(0.0))
+        Gomalish.matvec(A, x, q)
+        Gomalish.sub(b, q, r)
+        Gomalish.monolish_copy(r, q)
+        for iter in 1:Gomalish.get_row(A)
+            matvec(A, p, q)
+            tmp = Gomalish.dot(r, r)
+            α = tmp / monolish::blas::dot(p, q);
+        end
     end
 end
