@@ -48,11 +48,10 @@ struct WrapMonolishBiCGSTAB
     wrapped.method("create_precond", &WrappedT::create_precond);
     wrapped.method("apply_precond", &WrappedT::apply_precond);
     wrapped.method("name", &WrappedT::name);
-    //wrapped.method("solver_name", &WrappedT::solver_name);
   }
 };
 
-template<typename PRECOND>
+template<typename MATRIX, typename Float, typename PRECOND>
 struct WrapMonolishLU
 {
   template<typename TypeWrapperT>
@@ -60,6 +59,11 @@ struct WrapMonolishLU
   {
     typedef typename TypeWrapperT::type WrappedT;
     wrapped.template constructor<>();
+    wrapped.method("set_maxiter", &WrappedT::set_maxiter);
+    wrapped.method("set_tol", &WrappedT::set_tol);
+    wrapped.method("solve", [](WrappedT &w, MATRIX &A, monolish::vector<Float> &x, monolish::vector<Float> &b){return w.solve(A, x, b);});
+    wrapped.method("solve", [](WrappedT &w, MATRIX &A, monolish::vector<Float> &xb){return w.solve(A, xb);});
+
     wrapped.method(
       "set_create_precond", 
       [](WrappedT &w, PRECOND &p){w.set_create_precond(p);}
@@ -68,8 +72,6 @@ struct WrapMonolishLU
       "set_apply_precond", 
       [](WrappedT &w, PRECOND &p){w.set_apply_precond(p);}
     );
-    wrapped.method("get_singularity", &WrappedT::get_singularity);
-    wrapped.method("solve", &WrappedT::solve);
     wrapped.method("create_precond", &WrappedT::create_precond);
     wrapped.method("apply_precond", &WrappedT::apply_precond);
     wrapped.method("name", &WrappedT::name);
@@ -124,6 +126,7 @@ void wrap_equation(Module &mod){
      .apply<monolish::equation::BiCGSTAB<monolish::matrix::Dense<float>, float>>(WrapMonolishBiCGSTAB<monolish::equation::none<monolish::matrix::Dense<float>, float>>());
 
   mod.add_type<Parametric<TypeVar<1>, TypeVar<2>>>("LU")
-     .apply<monolish::equation::LU<monolish::matrix::Dense<double>, double>>(WrapMonolishnone())
-     .apply<monolish::equation::LU<monolish::matrix::Dense<float>, float>>(WrapMonolishnone());
+     .apply<monolish::equation::LU<monolish::matrix::Dense<double>, double>>(WrapMonolishLU<monolish::matrix::Dense<double>, double, monolish::equation::none<monolish::matrix::Dense<double>, double>>())
+     .apply<monolish::equation::LU<monolish::matrix::Dense<float>, float>>(WrapMonolishLU<monolish::matrix::Dense<float>, float, monolish::equation::none<monolish::matrix::Dense<float>, float>>());
+
 }
