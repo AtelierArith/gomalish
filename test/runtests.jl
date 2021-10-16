@@ -69,9 +69,16 @@ for T in [Float64, Float32]
         Gomalish.sub(b, q, r)
         Gomalish.monolish_copy(r, q)
         for iter in 1:Gomalish.get_row(A)
-            matvec(A, p, q)
+            Gomalish.matvec(A, p, q)
             tmp = Gomalish.dot(r, r)
-            α = tmp / monolish::blas::dot(p, q);
+            α = tmp / Gomalish.dot(p, q);
+            Gomalish.axpy(α, p, x)
+            Gomalish.axpy(-α, q, r)
+            β = Gomalish.dot(r, r) / tmp
+            resid = Gomalish.nrm2(r);
+            println(iter + 1)
+            (resid < tol) && return
+            isnan(resid) && return
         end
     end
 end
