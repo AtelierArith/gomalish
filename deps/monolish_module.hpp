@@ -7,3 +7,4 @@ void wrap_util(Module& mod);
 void wrap_equation(Module& mod);
 void wrap_blas(Module& mod);
 void wrap_vml(Module& mod);
+void wrap_logger(Module& mod);

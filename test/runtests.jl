@@ -56,6 +56,12 @@ for T in [Float64, Float32]
         DIM = 100
         coo = Gomalish.tridiagonal_toeplitz_matrix(DIM, T(11.0), T(-1.0));
         A = Gomalish.monolish_CRS{T}(coo);
+
+        println("===== Matrix informatrion =====")
+        println("# of rows : ", Gomalish.get_row(A))
+        println("# of cols : ", Gomalish.get_col(A))
+        println("# of nnz  : ", Gomalish.get_nnz(A))
+
         # initial x is rand(0~1)
         x = Gomalish.vector{T}(Gomalish.get_row(A), T(0.0), T(1.0))
         # initial b is {1, 1, 1, ...,1}
@@ -65,9 +71,11 @@ for T in [Float64, Float32]
         r = Gomalish.vector{T}(Gomalish.get_row(A), T(0.0))
         p = Gomalish.vector{T}(Gomalish.get_row(A), T(0.0))
         q = Gomalish.vector{T}(Gomalish.get_row(A), T(0.0))
+        
         Gomalish.matvec(A, x, q)
         Gomalish.sub(b, q, r)
-        Gomalish.monolish_copy(r, q)
+        Gomalish.monolish_copy(r, p)
+
         for iter in 1:Gomalish.get_row(A)
             Gomalish.matvec(A, p, q)
             tmp = Gomalish.dot(r, r)
@@ -75,8 +83,10 @@ for T in [Float64, Float32]
             Gomalish.axpy(α, p, x)
             Gomalish.axpy(-α, q, r)
             β = Gomalish.dot(r, r) / tmp
+            Gomalish.xpay(β, r, p)
             resid = Gomalish.nrm2(r);
             println(iter + 1)
+            @show resid
             (resid < tol) && return
             isnan(resid) && return
         end
