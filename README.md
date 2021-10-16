@@ -43,7 +43,7 @@ root@gomagoma99:/work# cd deps
 root@gomagoma99:/work/deps# make
 ```
 
-You'll find `work/deps/build/lib/libgomalish.so`. Our repository gomalish provides C++ co des that wrap monolish API. See `deps/monolish_<xxxx>.cpp` and `deps/monoish_module.hpp` to learn more. Your contribution is welcome. If you modified these C++ codes, please re-run `make -C /work/deps` again.
+You'll find `work/deps/build/lib/libgomalish.so`. Our repository gomalish provides C++ codes that wrap monolish API. See `deps/monolish_<xxxx>.cpp` and `deps/monoish_module.hpp` to learn more. Your contribution is welcome. If you modified these C++ codes, please re-run `make -C /work/deps` again.
 
 - Let's call monolish API from Julia! Lots of examples are stored in `/work/tests/runtests.jl`. The following command will run the tests for our package `Gomalish.jl`.
 
