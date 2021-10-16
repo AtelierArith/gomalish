@@ -74,7 +74,7 @@ for T in [Float64, Float32]
         
         Gomalish.matvec(A, x, q)
         Gomalish.sub(b, q, r)
-        Gomalish.monolish_copy(r, p)
+        Gomalish.copy(r, p)
 
         for iter in 1:Gomalish.get_row(A)
             Gomalish.matvec(A, p, q)

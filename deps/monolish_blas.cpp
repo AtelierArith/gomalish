@@ -6,8 +6,12 @@ using namespace jlcxx;
 void wrap_blas(Module &mod){
   mod.method("dot", [](const monolish::vector<double> &x, const monolish::vector<double> &y){return monolish::blas::dot(x, y);});
   mod.method("dot", [](const monolish::vector<float> &x, const monolish::vector<float> &y){return monolish::blas::dot(x, y);});
-  mod.method("monolish_copy", [](const monolish::vector<float> &x, monolish::vector<float> &y){monolish::blas::copy(x, y);});
-  mod.method("monolish_copy", [](const monolish::vector<double> &x, monolish::vector<double> &y){monolish::blas::copy(x, y);});
+  
+  mod.set_override_module(jl_base_module);
+  mod.method("copy", [](const monolish::vector<float> &x, monolish::vector<float> &y){monolish::blas::copy(x, y);});
+  mod.method("copy", [](const monolish::vector<double> &x, monolish::vector<double> &y){monolish::blas::copy(x, y);});
+  mod.unset_override_module();
+  
   mod.method("axpy", [](const float alpha, const monolish::vector<float> &x, monolish::vector<float> &y){return monolish::blas::axpy(alpha, x, y);});
   mod.method("axpy", [](const double alpha, const monolish::vector<double> &x, monolish::vector<double> &y){return monolish::blas::axpy(alpha, x, y);});
   mod.method("xpay", [](const float beta, const monolish::vector<float> &x, monolish::vector<float> &y){return monolish::blas::xpay(beta, x, y);});
