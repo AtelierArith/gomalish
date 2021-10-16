@@ -50,7 +50,7 @@ template<typename T1> struct IsMirroredType<monolish::vector<T1>> : std::false_t
 void wrap_vector(Module &mod)
 {
 
-  mod.add_type<Parametric<TypeVar<1>>>("monolish_vector")
+  mod.add_type<Parametric<TypeVar<1>>>("vector")
      .apply<monolish::vector<double>>(WrapMonolishVector<double>())
      .apply<monolish::vector<float>>(WrapMonolishVector<float>());
 

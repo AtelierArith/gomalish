@@ -6,8 +6,8 @@ for T in [Float64, Float32]
     @testset "dot $T" begin
         stdv1 = StdVector(T[1,2,3])
         stdv2 = StdVector(T[-1,-2,-3])
-        mv1 = Gomalish.monolish_vector{T}(stdv1)
-        mv2 = Gomalish.monolish_vector{T}(stdv2)
+        mv1 = Gomalish.vector{T}(stdv1)
+        mv2 = Gomalish.vector{T}(stdv2)
         Gomalish.print_all(mv1, false)
         Gomalish.print_all(mv2, false)
         @test Gomalish.dot(mv1, mv2) ≈ -T(14)
@@ -19,12 +19,12 @@ for T in [Float64, Float32]
         A_COO = Gomalish.monolish_COO{T}("matrixfiles/sample.mtx")
         Gomalish.print_all(A_COO, false)
         A = Gomalish.monolish_CRS{T}(A_COO)
-        x = Gomalish.monolish_vector{T}(Gomalish.get_row(A), T(1), T(2))
-        b = Gomalish.monolish_vector{T}(Gomalish.get_row(A), T(1), T(2))
+        x = Gomalish.vector{T}(Gomalish.get_row(A), T(1), T(2))
+        b = Gomalish.vector{T}(Gomalish.get_row(A), T(1), T(2))
         x = one(T) .+ rand(T, Gomalish.get_row(A))
         jl_b = one(T) .+ rand(T, Gomalish.get_row(A))
-        x = Gomalish.monolish_vector{T}(StdVector(x))
-        b = Gomalish.monolish_vector{T}(StdVector(jl_b))
+        x = Gomalish.vector{T}(StdVector(x))
+        b = Gomalish.vector{T}(StdVector(jl_b))
 
         solver = Gomalish.monolish_CG{Gomalish.monolish_CRS{T},T}()
         precond = Gomalish.monolish_Jacobi{Gomalish.monolish_CRS{T},T}()
@@ -54,11 +54,11 @@ end
 for T in [Float64, Float32]
     @testset "cg-impl $T" begin
         DIM = 100
-        COO = Gomalish.tridiagonal_toeplitz_matrix(DIM, 11.0, -1.0);
-        A = Gomalish.monolish_CRS{Float64}(COO);
+        coo = Gomalish.tridiagonal_toeplitz_matrix(DIM, T(11.0), T(-1.0));
+        A = Gomalish.monolish_CRS{T}(coo);
         # initial x is rand(0~1)
-        x = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 0.0, 1.0)
+        x = Gomalish.vector{T}(Gomalish.get_row(A), T(0.0), T(1.0))
         # initial b is {1, 1, 1, ...,1}
-        b = Gomalish.monolish_vector{Float64}(Gomalish.get_row(A), 1.0)
+        b = Gomalish.vector{T}(Gomalish.get_row(A), T(1.0))
     end
 end
