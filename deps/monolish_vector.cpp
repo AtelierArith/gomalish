@@ -2,7 +2,6 @@
 
 #include <jlcxx/jlcxx.hpp>
 #include <common/monolish_vector.hpp>
-#include <monolish_blas.hpp>
 
 using namespace jlcxx;
 
