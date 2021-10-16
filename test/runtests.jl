@@ -12,9 +12,9 @@ for T in [Float64, Float32]
         Gomalish.print_all(mv1)
         Gomalish.print_all(mv2)
         @test Gomalish.dot(mv1, mv2) ≈ -T(14)
-        @test mv1[0] ≈ stdv1[1]
-        @test mv1[1] ≈ stdv1[2]
-        @test mv1[2] ≈ stdv1[3]
+        @test mv1[1] ≈ stdv1[1]
+        @test mv1[2] ≈ stdv1[2]
+        @test mv1[3] ≈ stdv1[3]
     end
 end
 
@@ -54,9 +54,9 @@ for T in [Float64, Float32]
         println("Result by Julia")
         jl_x = jl_A \ jl_b
         println(jl_x)
-        @show x[0] ≈ jl_x[1]
-        @show x[1] ≈ jl_x[2]
-        @show x[2] ≈ jl_x[3]
+        @test x[1] ≈ jl_x[1]
+        @test x[2] ≈ jl_x[2]
+        @test x[3] ≈ jl_x[3]
     end
 end
         

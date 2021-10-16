@@ -20,7 +20,7 @@ struct WrapMonolishVector
     wrapped.method("print_all", [](WrappedT &w, bool force_cpu){w.print_all(force_cpu);});
     wrapped.method("print_all", [](WrappedT &w, std::string filename){w.print_all(filename);});
     wrapped.module().set_override_module(jl_base_module);
-    wrapped.module().method("getindex", [] (WrappedT &w, int i) {return w[i];});
+    wrapped.module().method("getindex", [] (WrappedT &w, int i) {return w[i-1];});
     wrapped.module().unset_override_module();
   }
 };
