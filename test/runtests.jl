@@ -8,17 +8,17 @@ for T in [Float64, Float32]
         stdv2 = StdVector(T[-1,-2,-3])
         mv1 = Gomalish.vector{T}(stdv1)
         mv2 = Gomalish.vector{T}(stdv2)
-        Gomalish.print_all(mv1, false)
-        Gomalish.print_all(mv2, false)
+        Gomalish.print_all(mv1)
+        Gomalish.print_all(mv2)
         @test Gomalish.dot(mv1, mv2) ≈ -T(14)
     end
 end
 
 for T in [Float64, Float32]
     @testset "cg $T" begin
-        A_COO = Gomalish.monolish_COO{T}("matrixfiles/sample.mtx")
-        Gomalish.print_all(A_COO, false)
-        A = Gomalish.monolish_CRS{T}(A_COO)
+        A_COO = Gomalish.COO{T}("matrixfiles/sample.mtx")
+        Gomalish.print_all(A_COO)
+        A = Gomalish.CRS{T}(A_COO)
         x = Gomalish.vector{T}(Gomalish.get_row(A), T(1), T(2))
         b = Gomalish.vector{T}(Gomalish.get_row(A), T(1), T(2))
         x = one(T) .+ rand(T, Gomalish.get_row(A))
@@ -26,17 +26,17 @@ for T in [Float64, Float32]
         x = Gomalish.vector{T}(StdVector(x))
         b = Gomalish.vector{T}(StdVector(jl_b))
 
-        solver = Gomalish.monolish_CG{Gomalish.monolish_CRS{T},T}()
-        precond = Gomalish.monolish_Jacobi{Gomalish.monolish_CRS{T},T}()
+        solver = Gomalish.CG{Gomalish.CRS{T},T}()
+        precond = Gomalish.Jacobi{Gomalish.CRS{T},T}()
         Gomalish.set_create_precond(solver, CxxRef(precond))
         Gomalish.set_apply_precond(solver, CxxRef(precond))
         Gomalish.set_tol(solver, 1.0e-12)
         Gomalish.set_maxiter(solver, Gomalish.get_row(A))
-        Gomalish.print_all(A, false)
+        Gomalish.print_all(A)
         println("---")
-        Gomalish.print_all(x, false)
+        Gomalish.print_all(x)
         println("---")
-        Gomalish.print_all(b, false)
+        Gomalish.print_all(b)
 
         @show Gomalish.solve(solver, A, x, b)
         jl_A = T[
@@ -45,7 +45,7 @@ for T in [Float64, Float32]
             0 -1 2
         ]
         println("Result by Gomalish/monolish")
-        Gomalish.print_all(x, false)
+        Gomalish.print_all(x)
         println("Result by Julia")
         println(jl_A \ jl_b)
     end
@@ -55,7 +55,7 @@ for T in [Float64, Float32]
     @testset "cg-impl $T" begin
         DIM = 100
         coo = Gomalish.tridiagonal_toeplitz_matrix(DIM, T(11.0), T(-1.0));
-        A = Gomalish.monolish_CRS{T}(coo);
+        A = Gomalish.CRS{T}(coo);
 
         println("===== Matrix informatrion =====")
         println("# of rows : ", Gomalish.get_row(A))

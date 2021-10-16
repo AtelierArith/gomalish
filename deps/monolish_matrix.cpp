@@ -14,7 +14,8 @@ struct WrapMonolishCOO
     wrapped.method("get_row", &WrappedT::get_row);
     wrapped.method("get_col", &WrappedT::get_col);
     wrapped.method("get_nnz", &WrappedT::get_nnz);
-    wrapped.method("print_all", [](WrappedT &w, bool force_cpu=false){w.print_all(force_cpu);});
+    wrapped.method("print_all", [](WrappedT &w){w.print_all(false);});
+    wrapped.method("print_all", [](WrappedT &w, bool force_cpu){w.print_all(force_cpu);});
     wrapped.method("print_all", [](WrappedT &w, std::string filename){w.print_all(filename);});
   }
 };
@@ -30,7 +31,8 @@ struct WrapMonolishCRS
     wrapped.method("get_row", &WrappedT::get_row);
     wrapped.method("get_col", &WrappedT::get_col);
     wrapped.method("get_nnz", &WrappedT::get_nnz);
-    wrapped.method("print_all", &WrappedT::print_all);
+    wrapped.method("print_all", [](WrappedT &w){w.print_all(false);});
+    wrapped.method("print_all", [](WrappedT &w, bool force_cpu){w.print_all(force_cpu);});
   }
 };
 
@@ -45,7 +47,8 @@ struct WrapMonolishDense
     wrapped.method("get_row", &WrappedT::get_row);
     wrapped.method("get_col", &WrappedT::get_col);
     wrapped.method("get_nnz", &WrappedT::get_nnz);
-    wrapped.method("print_all", &WrappedT::print_all);
+    wrapped.method("print_all", [](WrappedT &w){w.print_all(false);});
+    wrapped.method("print_all", [](WrappedT &w, bool force_cpu){w.print_all(force_cpu);});
   }
 };
 template<typename T> struct IsMirroredType<monolish::matrix::COO<T>> : std::false_type { };
@@ -54,15 +57,15 @@ template<typename T> struct IsMirroredType<monolish::matrix::Dense<T>> : std::fa
 
 void wrap_matrix(Module &mod)
 {
-  mod.add_type<Parametric<TypeVar<1>>>("monolish_COO")
+  mod.add_type<Parametric<TypeVar<1>>>("COO")
      .apply<monolish::matrix::COO<double>>(WrapMonolishCOO<double>())
      .apply<monolish::matrix::COO<float>>(WrapMonolishCOO<float>());
 
-  mod.add_type<Parametric<TypeVar<1>>>("monolish_CRS")
+  mod.add_type<Parametric<TypeVar<1>>>("CRS")
      .apply<monolish::matrix::CRS<double>>(WrapMonolishCRS<double>())
      .apply<monolish::matrix::CRS<float>>(WrapMonolishCRS<float>());
   
-  mod.add_type<Parametric<TypeVar<1>>>("monolish_Dense")
+  mod.add_type<Parametric<TypeVar<1>>>("Dense")
      .apply<monolish::matrix::Dense<double>>(WrapMonolishDense<double>())
      .apply<monolish::matrix::Dense<float>>(WrapMonolishDense<float>());
 }
