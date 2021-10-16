@@ -12,12 +12,13 @@ endif
 
 OWNER=ricosjp
 REPOSITORY=monolish
+VERSION=0.14.2
 
 all: build
 
 clone:
 ifeq ($(wildcard ./$(REPOSITORY)/.),)
-	git clone --depth=1 https://github.com/$(OWNER)/$(REPOSITORY).git
+	git clone --depth=1 -b ${VERSION} https://github.com/$(OWNER)/$(REPOSITORY).git
 else
 	@echo "already exists"
 endif
