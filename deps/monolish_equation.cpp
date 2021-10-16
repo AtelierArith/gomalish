@@ -26,6 +26,7 @@ struct WrapMonolishCG
   }
 };
 
+template<typename PRECOND>
 struct WrapMonolishBiCGSTAB
 {
   template<typename TypeWrapperT>
@@ -33,6 +34,45 @@ struct WrapMonolishBiCGSTAB
   {
     typedef typename TypeWrapperT::type WrappedT;
     wrapped.template constructor<>();
+    wrapped.method("set_maxiter", &WrappedT::set_maxiter);
+    wrapped.method("set_tol", &WrappedT::set_tol);
+    wrapped.method("solve", &WrappedT::solve);
+    wrapped.method(
+      "set_create_precond", 
+      [](WrappedT &w, PRECOND &p){w.set_create_precond(p);}
+    );
+    wrapped.method(
+      "set_apply_precond", 
+      [](WrappedT &w, PRECOND &p){w.set_apply_precond(p);}
+    );
+    wrapped.method("create_precond", &WrappedT::create_precond);
+    wrapped.method("apply_precond", &WrappedT::apply_precond);
+    wrapped.method("name", &WrappedT::name);
+    //wrapped.method("solver_name", &WrappedT::solver_name);
+  }
+};
+
+template<typename PRECOND>
+struct WrapMonolishLU
+{
+  template<typename TypeWrapperT>
+  void operator()(TypeWrapperT&& wrapped)
+  {
+    typedef typename TypeWrapperT::type WrappedT;
+    wrapped.template constructor<>();
+    wrapped.method(
+      "set_create_precond", 
+      [](WrappedT &w, PRECOND &p){w.set_create_precond(p);}
+    );
+    wrapped.method(
+      "set_apply_precond", 
+      [](WrappedT &w, PRECOND &p){w.set_apply_precond(p);}
+    );
+    wrapped.method("get_singularity", &WrappedT::get_singularity);
+    wrapped.method("solve", &WrappedT::solve);
+    wrapped.method("create_precond", &WrappedT::create_precond);
+    wrapped.method("apply_precond", &WrappedT::apply_precond);
+    wrapped.method("name", &WrappedT::name);
   }
 };
 
@@ -43,6 +83,10 @@ struct WrapMonolishJacobi
   {
     typedef typename TypeWrapperT::type WrappedT;
     wrapped.template constructor<>();
+    wrapped.method("solve", &WrappedT::solve);
+    wrapped.method("create_precond", &WrappedT::create_precond);
+    wrapped.method("apply_precond", &WrappedT::apply_precond);
+    wrapped.method("name", &WrappedT::name);
   }
 };
 
@@ -57,8 +101,9 @@ struct WrapMonolishnone
 };
 
 template<typename T1, typename T2> struct IsMirroredType<monolish::equation::CG<T1, T2>> : std::false_type { };
-template<typename T1, typename T2> struct IsMirroredType<monolish::equation::Jacobi<T1, T2>> : std::false_type { };
 template<typename T1, typename T2> struct IsMirroredType<monolish::equation::BiCGSTAB<T1, T2>> : std::false_type { };
+template<typename T1, typename T2> struct IsMirroredType<monolish::equation::LU<T1, T2>> : std::false_type { };
+template<typename T1, typename T2> struct IsMirroredType<monolish::equation::Jacobi<T1, T2>> : std::false_type { };
 template<typename T1, typename T2> struct IsMirroredType<monolish::equation::none<T1, T2>> : std::false_type { };
 
 void wrap_equation(Module &mod){
@@ -75,8 +120,8 @@ void wrap_equation(Module &mod){
      .apply<monolish::equation::CG<monolish::matrix::CRS<float>, float>>(WrapMonolishCG<monolish::equation::Jacobi<monolish::matrix::CRS<float>, float>>());
 
   mod.add_type<Parametric<TypeVar<1>, TypeVar<2>>>("BiCGSTAB")
-     .apply<monolish::equation::BiCGSTAB<monolish::matrix::Dense<double>, double>>(WrapMonolishnone())
-     .apply<monolish::equation::BiCGSTAB<monolish::matrix::Dense<float>, float>>(WrapMonolishnone());
+     .apply<monolish::equation::BiCGSTAB<monolish::matrix::Dense<double>, double>>(WrapMonolishBiCGSTAB<monolish::equation::none<monolish::matrix::Dense<double>, double>>())
+     .apply<monolish::equation::BiCGSTAB<monolish::matrix::Dense<float>, float>>(WrapMonolishBiCGSTAB<monolish::equation::none<monolish::matrix::Dense<float>, float>>());
 
   mod.add_type<Parametric<TypeVar<1>, TypeVar<2>>>("LU")
      .apply<monolish::equation::LU<monolish::matrix::Dense<double>, double>>(WrapMonolishnone())
