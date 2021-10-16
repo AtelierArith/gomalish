@@ -26,7 +26,6 @@ struct WrapMonolishCG
   }
 };
 
-template<typename MATRIX, typename Float>
 struct WrapMonolishJacobi
 {
   template<typename TypeWrapperT>
@@ -42,8 +41,8 @@ template<typename T1, typename T2> struct IsMirroredType<monolish::equation::Jac
 
 void wrap_equation(Module &mod){
   mod.add_type<Parametric<TypeVar<1>, TypeVar<2>>>("Jacobi")
-     .apply<monolish::equation::Jacobi<monolish::matrix::CRS<double>, double>>(WrapMonolishJacobi<monolish::matrix::CRS<double>, double>())
-     .apply<monolish::equation::Jacobi<monolish::matrix::CRS<float>, float>>(WrapMonolishJacobi<monolish::matrix::CRS<float>, float>());
+     .apply<monolish::equation::Jacobi<monolish::matrix::CRS<double>, double>>(WrapMonolishJacobi())
+     .apply<monolish::equation::Jacobi<monolish::matrix::CRS<float>, float>>(WrapMonolishJacobi());
 
   mod.add_type<Parametric<TypeVar<1>, TypeVar<2>>>("CG")
      .apply<monolish::equation::CG<monolish::matrix::CRS<double>, double>>(WrapMonolishCG<monolish::equation::Jacobi<monolish::matrix::CRS<double>, double>>())
