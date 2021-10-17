@@ -2,6 +2,15 @@
 
 - Unofficial [JuliaLang](https://julialang.org/) interface of MONOlithic LInear equation Solvers for Highly-parallel architecture a.k.a [monolish](https://github.com/ricosjp/monolish) with [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl)
 
+## Remark:
+
+This project is under construction. You will find that the development of this project requires at least a high level of C++ reading, writing, and design skills than I have. If you are an expert C++ programmer, you will notice that there is a lot of room for improvement in this project e.g.:
+
+- How to write/design a more sophisticated and professional C++ codes including `CMakefile` that help to wrap monolish API.
+  - Should I create Julia module for each `monolish::<blah-blah-namespace>`?. [Technically we could do ofc](https://github.com/JuliaInterop/CxxWrap.jl#module-entry-point), but does it privide a good interfeace for Julian? Idk.
+- Type conversion between Julia and C++, design.
+- Format C++ code
+
 # Usage
 
 ## TL;DR (今北産業)
@@ -43,7 +52,7 @@ root@gomagoma99:/work# cd deps
 root@gomagoma99:/work/deps# make
 ```
 
-You'll find `work/deps/build/lib/libgomalish.so`. Our repository gomalish provides C++ codes that wrap monolish API. See `deps/monolish_<xxxx>.cpp` and `deps/monoish_module.hpp` to learn more. Your contribution is welcome. If you modified these C++ codes, please re-run `make -C /work/deps` again.
+You'll find `work/deps/build/lib/libgomalish.so`. Our repository gomalish provides C++ codes that wrap monolish API. See `deps/monolish_<xxxx>.cpp`, `deps/monoish_module.hpp`, `deps/CMakeFiles` to learn more. If you modified these C++ codes, please re-run `make -C /work/deps` again.
 
 - Let's call monolish API from Julia! Lots of examples are stored in `/work/tests/runtests.jl`. The following command will run the tests for our package `Gomalish.jl`.
 
@@ -82,3 +91,4 @@ To move on to the next step, we recommend to take a look at these materials:
   - especially [examples](https://github.com/JuliaInterop/libcxxwrap-julia/tree/master/examples) directory
 - https://github.com/JuliaInterop/CxxWrap.jl
 - https://github.com/ricosjp/monolish
+
