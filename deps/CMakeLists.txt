@@ -20,8 +20,23 @@ message(STATUS "Found JlCxx at ${JlCxx_location}")
 add_subdirectory(monolish)
 
 # gomalish.cpp
-add_library(gomalish SHARED gomalish.cpp monolish_vector.cpp monolish_matrix.cpp monolish_util.cpp monolish_equation.cpp monolish_blas.cpp monolish_vml.cpp monolish_logger.cpp)
-target_link_libraries(gomalish JlCxx::cxxwrap_julia JlCxx::cxxwrap_julia_stl ${Julia_LIBRARY} monolish_cpu)
+add_library(gomalish SHARED 
+  gomalish.cpp
+  monolish_vector.cpp
+  monolish_matrix.cpp
+  monolish_util.cpp
+  monolish_equation.cpp
+  monolish_blas.cpp
+  monolish_vml.cpp
+  monolish_logger.cpp
+)
+
+target_link_libraries(gomalish 
+  JlCxx::cxxwrap_julia
+  JlCxx::cxxwrap_julia_stl
+  ${Julia_LIBRARY}
+  monolish_cpu
+)
 
 install(TARGETS
   gomalish
