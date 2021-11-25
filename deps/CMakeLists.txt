@@ -2,7 +2,6 @@ if (POLICY CMP0048)
   cmake_policy(SET CMP0048 NEW)
 endif (POLICY CMP0048)
 
-cmake_minimum_required(VERSION 3.14)
 project(Gomalish)
 
 # require 3.17 at least to build monolish 0.15.0
