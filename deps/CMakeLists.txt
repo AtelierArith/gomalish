@@ -38,6 +38,10 @@ target_link_libraries(gomalish
   monolish_cpu
 )
 
+target_include_directories(gomalish
+  INTERFACE ./monolish/include
+)
+
 install(TARGETS
   gomalish
 LIBRARY DESTINATION lib
