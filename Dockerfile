@@ -1,4 +1,4 @@
-FROM ghcr.io/ricosjp/monolish/oss:0.15.1
+FROM ghcr.io/ricosjp/monolish/oss:0.15.2
 
 ENV JULIA_PATH /usr/local/julia
 ENV PATH $JULIA_PATH/bin:$PATH
