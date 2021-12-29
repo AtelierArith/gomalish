@@ -39,7 +39,7 @@ target_link_libraries(gomalish
 )
 
 target_include_directories(gomalish
-  INTERFACE ./monolish/include
+  PRIVATE ./monolish/include
 )
 
 install(TARGETS
