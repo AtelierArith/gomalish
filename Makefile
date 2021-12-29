@@ -1,4 +1,4 @@
-.PHONY: all build clean
+.PHONY: all build clean test
 
 IMAGENAME=gomalishjl
 
@@ -10,6 +10,10 @@ build:
 	docker-compose build
 	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 
+test:
+	docker-compose run --rm julia julia -e 'using Pkg; Pkg.build(verbose=true); Pkg.test()'
+
 clean:
 	rm -f Manifest.toml
+	${MAKE} -C deps clean
 	docker-compose down
