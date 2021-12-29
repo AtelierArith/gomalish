@@ -2,6 +2,13 @@
 
 - Unofficial [JuliaLang](https://julialang.org/) interface of MONOlithic LInear equation Solvers for Highly-parallel architecture a.k.a [monolish](https://github.com/ricosjp/monolish) with [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl)
 
+## Version Table
+
+| [gomalish](https://github.com/AtelierArith/gomalish) | [monolish](https://github.com/ricosjp/monolish) | [julia](https://julialang.org/) |
+| ----- | ------ | ----- |
+| 0.2.0 | 0.15.0 | 1.6.3 |
+| 0.2.1 | 0.15.1 | 1.6.5 |
+
 ## Remark:
 
 This project is under construction. You will find that the development of this project requires at least a high level of C++ reading, writing, and design skills than I have. If you are an expert C++ programmer, you will notice that there is a lot of room for improvement in this project e.g.:
@@ -69,11 +76,13 @@ root@gomagoma99:/work# julia
   (_)     | (_) (_)    |
    _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
   | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.6.3 (2021-09-23)
+  | | |_| | | | (_| |  |  Version 1.6.5 (2021-12-19)
  _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 
-julia> # press ] key
+julia> # press ]
+julia> ]
+(Gomalish) pkg>
 (Gomalish) pkg> # This is the Pkg REPL. Let's enter `test` to run tests
 (Gomalish) pkg> test
 # some staff happens ...
