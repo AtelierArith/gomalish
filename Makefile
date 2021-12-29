@@ -11,7 +11,7 @@ build:
 	docker-compose run --rm julia julia --project=/work -e 'using Pkg; Pkg.instantiate()'
 
 test:
-	docker-compose run --rm julia julia -e 'using Pkg; Pkg.build(); Pkg.test()'
+	docker-compose run --rm julia julia -e 'using Pkg; Pkg.build(verbose=true); Pkg.test()'
 
 clean:
 	rm -f Manifest.toml
