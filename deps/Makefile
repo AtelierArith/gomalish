@@ -28,7 +28,7 @@ build: clone gomalish.cpp
 	cmake -S $(CURDIR) -B $(CURDIR)/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O2" -DCMAKE_PREFIX_PATH=`julia --project=@. -e 'using CxxWrap; CxxWrap.prefix_path() |> print'`
 	cmake --build $(CURDIR)/build --config Release -j $(NPROCS)
 
-clean: 
+clean:
 	rm -rf $(REPOSITORY)
 	rm -rf build
 	rm -f build.log
