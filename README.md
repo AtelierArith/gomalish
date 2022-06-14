@@ -80,7 +80,7 @@ root@gomagoma99:/work# julia
   (_)     | (_) (_)    |
    _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
   | | | | | | |/ _` |  |
-  | | |_| | | | (_| |  |  Version 1.6.5 (2021-12-19)
+  | | |_| | | | (_| |  |  Version 1.7.3 (2022-05-06)
  _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
 |__/                   |
 
