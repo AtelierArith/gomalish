@@ -1,4 +1,4 @@
-FROM ghcr.io/ricosjp/monolish/oss:0.15.3
+FROM ghcr.io/ricosjp/monolish/oss:0.16.1
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     build-essential \
@@ -14,7 +14,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 # Install Julia via jill.sh
 # https://github.com/abelsiqueira/jill
 RUN wget https://raw.githubusercontent.com/abelsiqueira/jill/main/jill.sh && \
-    /bin/bash jill.sh --version 1.7.1 --yes && \
+    /bin/bash jill.sh --version 1.7.3 --yes && \
     rm jill.sh
 
 # Install basic packages on default environment
@@ -24,6 +24,6 @@ WORKDIR /work
 ENV JULIA_PROJECT=/work
 
 COPY Project.toml /work/
-RUN mkdir /work/src/ && echo "module Gomalish; end">> /work/src/Gomalish.jl
+RUN mkdir /work/src/ && echo "module Gomalish; end" >> /work/src/Gomalish.jl
 
 RUN julia -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()'
