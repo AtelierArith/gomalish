@@ -12,7 +12,7 @@ endif
 
 OWNER=ricosjp
 REPOSITORY=monolish
-VERSION=0.16.1
+VERSION=0.16.2
 
 all: build
 

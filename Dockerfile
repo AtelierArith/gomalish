@@ -1,4 +1,4 @@
-FROM ghcr.io/ricosjp/monolish/oss:0.16.1
+FROM ghcr.io/ricosjp/monolish/oss:0.16.2
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     build-essential \
