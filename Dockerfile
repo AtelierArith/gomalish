@@ -1,4 +1,4 @@
-FROM ghcr.io/ricosjp/monolish/oss:0.16.3
+FROM ghcr.io/ricosjp/monolish/oss:0.17.2
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     build-essential \
@@ -14,7 +14,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 # Install Julia via jill.sh
 # https://github.com/abelsiqueira/jill
 RUN wget https://raw.githubusercontent.com/abelsiqueira/jill/main/jill.sh && \
-    /bin/bash jill.sh --version 1.8.0 --yes && \
+    /bin/bash jill.sh --version 1.9.3 --yes && \
     rm jill.sh
 
 # Install basic packages on default environment
